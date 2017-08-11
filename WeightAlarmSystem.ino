@@ -1,7 +1,7 @@
 #include <LiquidCrystal.h>
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
-String inString = "";    // string to hold input
-int weightInput = 0;
+float inValue = 0;    // string to hold input
+float weightInput =0;
 int weightLimit = 20;
 byte fillbox[8] = {
   B11111,
@@ -20,7 +20,7 @@ byte emptybox[8] = {
   B00000,
   B00000,
   B00000,
-  B00000,
+  B00000,  
   B00000,
   B00000,
 };
@@ -34,6 +34,16 @@ void setup() {
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
   }
+  //pinMode(16, OUTPUT);
+  //pinMode(14, OUTPUT);
+  //pinMode(5, OUTPUT);
+  //pinMode(4, OUTPUT);
+  //pinMode(3, OUTPUT);
+  //pinMode(15, OUTPUT);
+  pinMode(10, OUTPUT);
+  pinMode(9, OUTPUT);
+  pinMode(8, OUTPUT);
+  pinMode(6, OUTPUT);
 
   // send an intro:
   Serial.println();
@@ -44,11 +54,9 @@ void setup() {
   lcd.createChar(1, emptybox);
   lcd.begin(16, 2);
 
-  pinMode(10, OUTPUT);
-  pinMode(9, OUTPUT);
-  pinMode(8, OUTPUT);
-  pinMode(6, OUTPUT);
 
+
+  
 }
 
 void loop() {
@@ -65,28 +73,30 @@ void loop() {
     Serial.println(warning);
   }
 
-  while (true) {
+ while(true){
     
-    while (Serial.available() > 0) {
-      int inChar = Serial.read();
-      if (isDigit(inChar)) {
+ while (Serial.available() > 0) {
+      //string inString = Serial.readString();
+      float inValue = Serial.parseFloat();
+      //if (isDigit(inChar)) {
         // convert the incoming byte to a char
         // and add it to the string:
-        inString += (char)inChar;
-      }
+        //inString += (char)inChar;}
       // if you get a newline, print the string,
       // then the string's value:
-      if (inChar == '\n') {
+      //if (inValue == '.') {
         Serial.print("New Weight:");
-        Serial.println(inString.toInt());
-        weightInput = (inString.toInt());
-        weightInput = abs(weightInput);
-        //Serial.println(weightLimit);
+        Serial.println(inValue);
+        weightInput = (inValue);
+        if (weightInput < 0) {
+          weightInput = 0;
+        }
+        //weightInput = abs(weightInput);
+        Serial.println(weightLimit);
         //Serial.print("String: ");
         //Serial.println(inString);
         // clear the string for new input:
-        inString = "";
-      }
+      //}
 	  
 	  int state = 0;
 	  if ((weightLimit) <= weightInput)

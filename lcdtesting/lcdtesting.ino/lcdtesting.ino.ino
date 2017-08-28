@@ -52,14 +52,14 @@ void setup() {
   
   Serial.println(F("Benchmark                Time (microseconds)"));
   delay(10);
-  Serial.print(F("Screen fill              "));
+ /* Serial.print(F("Screen fill              "));
   Serial.println(testFillScreen());
   delay(500);
-
+  
   Serial.print(F("Text                     "));
   Serial.println(testText());
   delay(3000);
-
+  
   Serial.print(F("Lines                    "));
   Serial.println(testLines(ILI9341_CYAN));
   delay(500);
@@ -71,11 +71,11 @@ void setup() {
   Serial.print(F("Rectangles (outline)     "));
   Serial.println(testRects(ILI9341_GREEN));
   delay(500);
-
+*/
   Serial.print(F("Rectangles (filled)      "));
-  Serial.println(testFilledRects(ILI9341_YELLOW, ILI9341_MAGENTA));
+  Serial.println(testFilledRects(ILI9341_WHITE, ILI9341_WHITE));
   delay(500);
-
+/*
   Serial.print(F("Circles (filled)         "));
   Serial.println(testFilledCircles(10, ILI9341_MAGENTA));
 
@@ -98,18 +98,16 @@ void setup() {
   Serial.print(F("Rounded rects (filled)   "));
   Serial.println(testFilledRoundRects());
   delay(500);
-
+*/
   Serial.println(F("Done!"));
 
 }
 
 
 void loop(void) {
-  for(uint8_t rotation=0; rotation<4; rotation++) {
-    tft.setRotation(rotation);
     testText();
-    delay(1000);
-  }
+    //delay(1000);
+  
 }
 
 unsigned long testFillScreen() {
@@ -128,12 +126,21 @@ unsigned long testFillScreen() {
 }
 
 unsigned long testText() {
-  tft.fillScreen(ILI9341_BLACK);
+  tft.fillScreen(ILI9341_YELLOW);
   unsigned long start = micros();
-  tft.setCursor(0, 0);
-  tft.setTextColor(ILI9341_WHITE);  tft.setTextSize(1);
-  tft.println("Hello World!");
-  tft.setTextColor(ILI9341_YELLOW); tft.setTextSize(2);
+  tft.setRotation(3);
+  tft.setCursor(30, (tft.width()/2)-50);
+  tft.setTextColor(ILI9341_BLACK);  tft.setTextSize(6);
+  tft.println("WARNING!");
+  //delay(3000);
+  tft.fillScreen(ILI9341_RED);
+  tft.setRotation(3);
+  tft.setCursor(20, (tft.width()/2)-50);
+  tft.setTextColor(ILI9341_WHITE);  tft.setTextSize(6);
+  tft.println("CRITICAL");
+  //delay(3000);
+  
+  /*tft.setTextColor(ILI9341_YELLOW); tft.setTextSize(2);
   tft.println(1234.56);
   tft.setTextColor(ILI9341_RED);    tft.setTextSize(3);
   tft.println(0xDEADBEEF, HEX);
@@ -150,7 +157,7 @@ unsigned long testText() {
   tft.println("Or I will rend thee");
   tft.println("in the gobberwarts");
   tft.println("with my blurglecruncheon,");
-  tft.println("see if I don't!");
+  tft.println("see if I don't!");*/
   return micros() - start;
 }
 
@@ -245,21 +252,13 @@ unsigned long testRects(uint16_t color) {
 unsigned long testFilledRects(uint16_t color1, uint16_t color2) {
   unsigned long start, t = 0;
   int           n, i, i2,
-                cx = tft.width()  / 2 - 1,
-                cy = tft.height() / 2 - 1;
+                cx = tft.width()  / 12,
+                cy = tft.height() / 4;
 
+  tft.setRotation(3);
   tft.fillScreen(ILI9341_BLACK);
-  n = min(tft.width(), tft.height());
-  for(i=n; i>0; i-=6) {
-    i2    = i / 2;
-    start = micros();
-    tft.fillRect(cx-i2, cy-i2, i, i, color1);
-    t    += micros() - start;
-    // Outlines are not included in timing results
-    tft.drawRect(cx-i2, cy-i2, i, i, color2);
-    yield();
-  }
-
+  tft.fillRect(cx, cy, 20, 60, color1);
+  delay(5000);
   return t;
 }
 

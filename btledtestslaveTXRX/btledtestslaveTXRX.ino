@@ -1,8 +1,8 @@
 #include <SoftwareSerial.h>
 #define ledPin 15
-#define ledGREEN 9
+#define ledGREEN 5
 
-SoftwareSerial mySlave(10,14); //rx,tx
+SoftwareSerial mySlave(10, 14); //rx,tx
 //int state = 0;
 void setup() {
   //Serial.begin(38400); // Default communication rate of the Bluetooth module

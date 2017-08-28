@@ -1,2 +1,2 @@
-# ATLAS-Physio
+# ARIS-Physio
 Physiotherapy device arduino

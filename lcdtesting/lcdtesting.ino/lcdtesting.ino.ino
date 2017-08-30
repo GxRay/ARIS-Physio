@@ -19,8 +19,8 @@
 #include "Adafruit_ILI9341.h"
 
 // For the Adafruit shield, these are the default.
-#define TFT_DC 9
-#define TFT_CS 10
+#define TFT_DC 6
+#define TFT_CS 7
 #define TFT_CLK 15
 #define TFT_MOSI 16
 #define TFT_MISO 14
@@ -82,7 +82,7 @@ void setup() {
   Serial.print(F("Circles (outline)        "));
   Serial.println(testCircles(10, ILI9341_WHITE));
   delay(500);
-
+*/
   Serial.print(F("Triangles (outline)      "));
   Serial.println(testTriangles());
   delay(500);
@@ -90,7 +90,7 @@ void setup() {
   Serial.print(F("Triangles (filled)       "));
   Serial.println(testFilledTriangles());
   delay(500);
-
+/*
   Serial.print(F("Rounded rects (outline)  "));
   Serial.println(testRoundRects());
   delay(500);
@@ -140,7 +140,7 @@ unsigned long testText() {
   tft.println("CRITICAL");
   //delay(3000);
   
-  /*tft.setTextColor(ILI9341_YELLOW); tft.setTextSize(2);
+  tft.setTextColor(ILI9341_YELLOW); tft.setTextSize(2);
   tft.println(1234.56);
   tft.setTextColor(ILI9341_RED);    tft.setTextSize(3);
   tft.println(0xDEADBEEF, HEX);
@@ -157,7 +157,7 @@ unsigned long testText() {
   tft.println("Or I will rend thee");
   tft.println("in the gobberwarts");
   tft.println("with my blurglecruncheon,");
-  tft.println("see if I don't!");*/
+  tft.println("see if I don't!");
   return micros() - start;
 }
 

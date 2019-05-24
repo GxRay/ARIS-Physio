@@ -7,7 +7,7 @@
 #include <SoftwareSerial.h>
 #include "TouchScreen.h"
 
-SoftwareSerial mySlave(10,9); //rx,tx
+SoftwareSerial mySlave(9,10); //rx,tx
 
 // For the Adafruit shield, these are the default.
 #define TFT_DC 6
@@ -97,6 +97,16 @@ unsigned long triangleButtons() {
 
 }
 
+unsigned long settingsButton(uint8_t radius, uint16_t color) {
+  unsigned long start;
+  int x, y, w = 50, h = 23, r2 = radius*3;
+tft.setRotation(0);
+  for(x=radius; x<w; x+=r2) {
+    for(y=radius; y<h; y+=r2) {
+      tft.fillCircle(x, y, radius, color);
+    }
+  }
+}
 int currentTxt(float inputValue){
 
   tft.setRotation(3);
@@ -107,7 +117,7 @@ int currentTxt(float inputValue){
   tft.println(inputValue);
 }
 
-int limitTxt(int weightLimit){
+int limitTxt(float weightLimit){
 
   tft.setRotation(3);
   tft.setCursor(20, 170);
@@ -168,18 +178,19 @@ void setup() {
   tft.fillScreen(ILI9341_BLACK);
 }
 
+
+
 void loop() {
 
+  settingsButton(15,ILI9341_RED);
   triangleButtons();
 
 // Retrieve a point  
   TSPoint p = ts.getPoint();
 
- /* // we have some minimum pressure we consider 'valid'
+// we have some minimum pressure we consider 'valid'
   // pressure of 0 means no pressing!
-  if (p.z < MINPRESSURE || p.z > MAXPRESSURE) {
-     return;
-  }*/
+ if (p.z > MINPRESSURE && p.z < MAXPRESSURE) {
 
   p.x = map(p.x, TS_MINX, TS_MAXX, 0, tft.height());
   p.y = map(p.y, TS_MINY, TS_MAXY, 0, tft.width());
@@ -193,6 +204,21 @@ void loop() {
     }
   }
 
+  if ((p.y < 23)){
+    if ((p.x <= 190)){
+       mySlave.println("x");
+       delay(50);
+       mySlave.println("1");
+       if ((p.y < 23)){
+          if ((p.x <= 190)){
+            mySlave.println("x");
+          }
+       }
+    }
+  }
+ }
+  
+  
 if (mySlave.available() > 0) {
       float inValue = mySlave.parseFloat();
         Serial.print("New Weight:");
@@ -203,7 +229,6 @@ if (mySlave.available() > 0) {
         }
         Serial.print("Input Weight:");
         Serial.println(weightInput);
-        currentTxt(weightInput);
  }
 
 

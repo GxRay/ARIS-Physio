@@ -43,8 +43,8 @@ Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
 //Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_MOSI, TFT_CLK, TFT_RST, TFT_MISO);
 
  float inValue = 0;    // string to hold input
-  float weightInput = 40;
-  int weightLimit = 50;
+  float weightInput = 5;
+  int weightLimit = 25;
   int warning = 0;
 
 int txtWarning() {
@@ -261,4 +261,3 @@ state= updateState();
 	    lvlBars(ILI9341_WHITE, state);
 	  }
 }
-
